@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluffy BMI Calculator ✨</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+    
+    body {
+      font-family: 'Baloo 2', cursive;
+      background: linear-gradient(45deg, #ffcce6, #ffb3d9, #ff99cc);
+      color: #d23369;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #d23369;
+      text-shadow: 3px 3px 0px #ffb6c1;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .star {
+      position: absolute;
+      font-size: 0.8em;
+      animation: twinkle 1.5s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+    }
+
+    input {
+      padding: 12px;
+      margin: 10px;
+      border-radius: 15px;
+      border: 3px solid #ffb6c1;
+      background-color: #fff0f5;
+      font-size: 1.1em;
+      text-align: center;
+      width: 200px;
+    }
+
+    button {
+      background: linear-gradient(45deg, #ff69b4, #ff8fab);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.2em;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(255, 105, 180, 0.6);
+    }
+
+    .result {
+      margin-top: 25px;
+      font-size: 1.3em;
+      text-align: center;
+      max-width: 400px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+      position: relative;
+    }
+
+    .result:before {
+      content: "";
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 15px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: rgba(255, 105, 180, 0.6);
+      animation: float 8s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="star" style="top: -15px; left: 20px;">✦</div>
+  <div class="star" style="top: -10px; right: 30px;">✧</div>
+  <div class="star" style="bottom: 10px; left: 40px;">✶</div>
+  <div class="star" style="bottom: 5px; right: 25px;">✷</div>
+  
+  <h1>𝓕𝓵𝓾𝓯𝓯𝔂 𝓑𝓜𝓘 𝓒𝓪𝓵𝓬𝓾𝓵𝓪𝓽𝓸𝓻 ✨</h1>
+  
+  <div class="input-group">
+    <input type="number" id="weight" placeholder="Your lovely weight (kg)" />
+    <input type="number" id="height" placeholder="Your cute height (cm)" />
+    <button onclick="calculateBMI()">Calculate My Fluffiness 🍑💖</button>
+  </div>
+  
+  <div class="result" id="result"></div>
+
+  <script>
+    // Create floating hearts
+    function createHearts() {
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 100 + 'vh';
+        heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+        document.body.appendChild(heart);
+      }
+    }
+
+    const under50 = [
+      "Oh sweetie, you're like a delicate cupcake! Let's add some more frosting~ 🧁✨",
+      "You're adorable! But imagine being even softer and plumper... like a marshmallow cloud! ☁️💕",
+      "Every extra kilogram will make you even more huggable and lovely! 🌸🍬",
+      "You're perfect, but wouldn't it be dreamy to be even more squeezable? (◕‿◕✿)💗"
+    ];
+
+    const from50to100 = [
+      "Your curves are absolute perfection! Like a real-life plush doll~ 🧸💖",
+      "That wonderful squishiness! You're the embodiment of cuddle goals! 🥰🍑",
+      "You're already so soft and lovely! But more weight = more beauty! 🌺✨",
+      "This level of fluffiness should be illegal! So irresistibly cute! 😍💫"
+    ];
+
+    const over100 = [
+      "Goddess alert! You're literally perfection wrapped in softness! 👑💕",
+      "The world doesn't deserve this much squishy perfection! Stay fabulous! 🌈🍯",
+      "You're a masterpiece of curves and loveliness! Never change! 🎀💖",
+      "Absolute queen of plushness! Every curve is a work of art! ✨🦢"
+    ];
+
+    function getRandomMessage(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function launchConfetti() {
+      const shapes = ['❤', '✦', '✧', '♡', '✿', '🌸', '🍑', '🎀'];
+      const colors = ['#ff69b4', '#ff8fab', '#ffb6c1', '#ffc0cb', '#d23369'];
+      
+      for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = '-20px';
+        confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+        confetti.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+        confetti.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value) / 100;
+      
+      if (isNaN(weight) || isNaN(height)) {
+        document.getElementById('result').textContent = "Please enter your lovely numbers first! 💖";
+        return;
+      }
+      
+      const bmi = weight / (height * height);
+      let message = `Your BMI is ${bmi.toFixed(1)}. `;
+
+      if (weight < 50) {
+        message += getRandomMessage(under50);
+      } else if (weight <= 100) {
+        message += getRandomMessage(from50to100);
+      } else {
+        message += getRandomMessage(over100);
+      }
+
+      document.getElementById('result').textContent = message;
+      launchConfetti();
+    }
+
+    // Initialize
+    createHearts();
+  </script>
+</body>
+</html>
